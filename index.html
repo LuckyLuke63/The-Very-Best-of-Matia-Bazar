@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>I maggiori successi degli anni '70</title>
+  <title>I più grandi successi dei Matia Bazar</title>
   <style>
     body { font-family: Arial,sans-serif; background: linear-gradient(135deg,#f2ebe0 0%,#ede0d3 100%); color: #3b2f2f; max-width:800px; margin:2em auto; padding:0 1em;}
     h1 { text-align:center; font-size:2.2em; margin-bottom:.2em; color:#8b4513;}
@@ -30,21 +30,13 @@
   </style>
 </head>
 <body>
-  <h1>🎵 I maggiori successi degli anni '70</h1>
-  <div class="subtitle">Anteprime di 30 secondi da Spotify con copertine originali</div>
+  <h1>🎵 Souvenir: The Very Best of Matia Bazar</h1>
+  <div class="subtitle">Anteprime di 30 secondi da Spotify</div>
   <div class="controls">
-    <label for="yearSel"><strong>Anno:</strong></label>
-    <select id="yearSel" onchange="renderYear(this.value)">
-      <option value="1970">1970</option>
-      <option value="1971">1971</option>
-      <option value="1972">1972</option>
-      <option value="1973">1973</option>
-      <option value="1974">1974</option>
-      <option value="1975">1975</option>
-      <option value="1976">1976</option>
-      <option value="1977">1977</option>
-      <option value="1978">1978</option>
-      <option value="1979">1979</option>
+    <label for="cdSel"><strong>Anno:</strong></label>
+    <select id="cdSel" onchange="renderCD(this.value)">
+      <option value="CD1">CD1</option>
+      <option value="CD2">CD2</option>
     </select>
   </div>
   <div id="list"></div>
@@ -59,57 +51,15 @@
   </div>
   <script>
     const tracksByYear = {
-      "1970": [
-        {rank:1, title:"Insieme", artist:"Mina", spotifyId:"1RRtwzGtcOhI8seqh8fV2u"},
-        {rank:2, title:"La lontananza", artist:"Domenico Modugno", spotifyId:"2Ls7xn9otmCqkjLBcdmQ8A"},
-        {rank:3, title:"In the Summertime", artist:"Mungo Jerry", spotifyId:"2uzlv8PjqsVvF1DhEahyhy"}
+      "CD1": [
+        {rank:1, title:"Per un'ora d'amore", artist:"Matia Bazar", spotifyId:"4iOSMIthFJtpAv9C7rUo0C"},
         
       ],
-      "1971": [
-        {rank:1, title:"Pensieri e parole", artist:"Lucio Battisti", spotifyId:"6XtdTzP6mAXNvJLr0R4bZO"},
-        {rank:2, title:"Tanta voglia di lei", artist:"Pooh", spotifyId:"3a22kIhC4W9IlnrzXSmjYw"},
-        {rank:3, title:"Un fiume amaro", artist:"Iva Zanicchi", spotifyId:"7CcDQofBCNM0eT5jgJebtA"}
-      ],
-      "1972": [
-        {rank:1, title:"Il padrino", artist:"Santo & Johnny", spotifyId:"5wLzd2WY3GZAi6Ecy79Zw2"},
-        {rank:2, title:"Questo piccolo grande amore", artist:"Claudio Baglioni", spotifyId:"0P55M408LsT6E8c7fHrPBa"},
-        {rank:3, title:"Grande grande grande", artist:"Mina", spotifyId:"7djxemkRcsWAqrWTye4Vxt"}
-      ],
-      "1973": [
-        {rank:1, title:"E poi...", artist:"Mina", spotifyId:"2371VUoPRQAkqMnfTWRyRM"},
-        {rank:2, title:"La Collina dei ciliegi", artist:"Lucio Battisti", spotifyId:"1barmMRNFXuBEWNyWvbUwI"},
-        {rank:3, title:"Il Mio canto libero", artist:"Lucio Battisti", spotifyId:"3wWuOXMlXf6ipppE0fNz7L"}
-      ],
-      "1974": [
-        {rank:1, title:"E tu...", artist:"Claudio Baglioni", spotifyId:"1SeuSVhEIRmGSqrHa3tcvi"},
-        {rank:2, title:"A blue shadow", artist:"Berto Pisano", spotifyId:"5hVqPz9xG9zYJ5h6X3a2E7"},
-        {rank:3, title:"Anima mia", artist:"I Cugini di Campagna", spotifyId:"5Bdzlw5cZ5u8s3JzUGcXQt"}
-      ],
-      "1975": [
-        {rank:1, title:"Sabato pomeriggio", artist:"Claudio Baglioni", spotifyId:"6jjZdkVp0sdkZ5cSebNaY1"},
-        {rank:2, title:"L'importante è finire", artist:"Mina", spotifyId:"3JBJmloqKLxF9Fp3paCUOR"},
-        {rank:3, title:"La tartaruga", artist:"Bruno Lauzi", spotifyId:"0mpZkTz6QyiIGNJEMz4d9B"}
-      ],
-      "1976": [
-        {rank:1, title:"Ancora tu", artist:"Lucio Battisti", spotifyId:"4EClqAaSyZNq2GUqqZaDsN"},
-        {rank:2, title:"Non si può morire dentro", artist:"Gianni Bella", spotifyId:"7EKRsFJuGPbekx5iVoRBux"},
-        {rank:3, title:"Margherita", artist:"Riccardo Cocciante", spotifyId:"3OmkSLoCJEX505kQOZJg1K"}
-      ],
-      "1977": [
-        {rank:1, title:"Amarsi un po'", artist:"Lucio Battisti", spotifyId:"7j3dVhkxwbOLOAPCj2kfJt"},
-        {rank:2, title:"Ti amo", artist:"Umberto Tozzi", spotifyId:"6GKuVYC3oC8xjnNmDZyPF0"},
-        {rank:3, title:"Solo tu", artist:"Matia Bazar", spotifyId:"6HNJJZlto6rGVvunJmzmwZ"}
-      ],
-      "1978": [
-        {rank:1, title:"Una donna per amico", artist:"Lucio Battisti", spotifyId:"2ogYCPCKE10ZHzckKBIF6d"},
-        {rank:2, title:"Tu", artist:"Umberto Tozzi", spotifyId:"6Gbc24EJdvZgpY0b5pNxhA"},
-        {rank:3, title:"Wuthering heights", artist:"Kate Bush", spotifyId:"5YSI1311X8t31PBjkBG4CZ"}
-      ],
-      "1979": [
-        {rank:1, title:"Tu sei l'unica donna per me", artist:"Alan Sorrenti", spotifyId:"67LFIe9Cp7g4k0K5KrDGDA"},
-        {rank:2, title:"Se tornassi", artist:"Julio Iglesias", spotifyId:"6loVVUSQ6NEDonnAy5V7dK"},
-        {rank:3, title:"Soli", artist:"Adriano Celentano", spotifyId:"4Skt2VzYnEcwzdogf8wFcP"}
+      "CD2": [
+        {rank:1, title:"Vacanze romane", artist:"Matia Bazar", spotifyId:"2tNiJQG6eaLT9y1pqdj5VV"},
+        
       ]
+     
     };
 
     async function getCoverArt(spotifyId) {
@@ -175,11 +125,12 @@
       if (e.target.id === 'overlay') closePlayer();
     });
     document.addEventListener('keydown', e => { if (e.key==="Escape") closePlayer(); });
-    document.addEventListener('DOMContentLoaded', () => renderYear('1970'));
-    document.getElementById('yearSel').value = '1970';
+    document.addEventListener('DOMContentLoaded', () => rendercd('CD1'));
+    document.getElementById('cdSel').value = 'CD1';
   </script>
 </body>
 </html>
+
 
 
 
