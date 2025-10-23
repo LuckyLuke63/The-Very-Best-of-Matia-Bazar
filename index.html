@@ -94,12 +94,10 @@
 
     async function getCoverArt(spotifyId) {
       try {
-        const response = await fetch(`http://googleusercontent.com/spotify.com/c{spotifyId}`);
+        const response = await fetch(`https://open.spotify.com/oembed?url=https://open.spotify.com/track/${spotifyId}`);
         const data = await response.json();
         return data.thumbnail_url || null;
-      } catch (error) {
-        return null;
-      }
+      } catch (error) { return null; }
     }
 
     async function renderCD(cd) {
@@ -224,6 +222,7 @@
   </script>
 </body>
 </html>
+
 
 
 
