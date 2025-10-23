@@ -39,7 +39,9 @@
       <option value="CD2">CD2</option>
     </select>
   </div>
+
   <div id="list"></div>
+
   <div id="overlay">
     <div id="player">
       <h3 id="track-title"></h3>
@@ -49,17 +51,19 @@
       <button id="close" onclick="closePlayer()">Chiudi</button>
     </div>
   </div>
+
   <script>
     const tracksByCd = {
       "CD1": [
         {rank:1, title:"Per un'ora d'amore", artist:"Matia Bazar", spotifyId:"4iOSMIthFJtpAv9C7rUo0C"},
-        
+        {rank:2, title:"Solo tu", artist:"Matia Bazar", spotifyId:"1aZjVjqN8i2yOYP6mR6CXP"},
+        {rank:3, title:"Ti sento", artist:"Matia Bazar", spotifyId:"1r4vZ1f1W2RpYQWj4xqRUl"}
       ],
       "CD2": [
         {rank:1, title:"Vacanze romane", artist:"Matia Bazar", spotifyId:"2tNiJQG6eaLT9y1pqdj5VV"},
-        
+        {rank:2, title:"Cavallo bianco", artist:"Matia Bazar", spotifyId:"2iyCHTZbp1RkF3D5YkOGgu"},
+        {rank:3, title:"Souvenir", artist:"Matia Bazar", spotifyId:"6gBznxZPY6jZ5x7LJbHjTv"}
       ]
-     
     };
 
     async function getCoverArt(spotifyId) {
@@ -67,10 +71,12 @@
         const response = await fetch(`https://open.spotify.com/oembed?url=https://open.spotify.com/track/${spotifyId}`);
         const data = await response.json();
         return data.thumbnail_url || null;
-      } catch (error) { return null; }
+      } catch (error) {
+        return null;
+      }
     }
 
-    async function renderYear(year) {
+    async function renderCD(cd) {
       const list = document.getElementById('list');
       list.innerHTML = '<div style="text-align:center;padding:20px;">Caricamento copertine...</div>';
       const tracks = tracksByCd[cd];
@@ -81,6 +87,7 @@
         const coverDiv = document.createElement('div');
         coverDiv.className = 'album-cover';
         coverDiv.innerHTML = '🎵';
+
         const info = document.createElement('div');
         info.className = 'song-info';
         info.innerHTML = `
@@ -91,17 +98,21 @@
           </div>
           <div class='artist'>${track.artist}</div>
         `;
+
         const btn = document.createElement('button');
         btn.textContent = 'Ascolta 30s';
-        btn.onclick = () => openPlayer(track.spotifyId,track.title,track.artist);
+        btn.onclick = () => openPlayer(track.spotifyId, track.title, track.artist);
+
         div.appendChild(coverDiv);
         div.appendChild(info);
         div.appendChild(btn);
         list.appendChild(div);
+
         getCoverArt(track.spotifyId).then(coverUrl => {
           if (coverUrl) {
             const img = document.createElement('img');
-            img.src = coverUrl; img.alt=track.title+' - '+track.artist;
+            img.src = coverUrl;
+            img.alt = track.title + ' - ' + track.artist;
             img.onload = () => { coverDiv.innerHTML = ''; coverDiv.appendChild(img); };
             img.onerror = () => coverDiv.innerHTML = '💿';
           } else {
@@ -117,19 +128,27 @@
       document.getElementById('sp-player').src = `https://open.spotify.com/embed/track/${id}?theme=0`;
       document.getElementById('overlay').style.display = 'flex';
     }
+
     function closePlayer() {
       document.getElementById('overlay').style.display = 'none';
       document.getElementById('sp-player').src = '';
     }
+
     document.getElementById('overlay').addEventListener('click', e => {
       if (e.target.id === 'overlay') closePlayer();
     });
-    document.addEventListener('keydown', e => { if (e.key==="Escape") closePlayer(); });
-    document.addEventListener('DOMContentLoaded', () => rendercd('CD1'));
-    document.getElementById('cdSel').value = 'CD1';
+    document.addEventListener('keydown', e => {
+      if (e.key === "Escape") closePlayer();
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderCD('CD1');
+      document.getElementById('cdSel').value = 'CD1';
+    });
   </script>
 </body>
 </html>
+
 
 
 
