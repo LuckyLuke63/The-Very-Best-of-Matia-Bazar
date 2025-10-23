@@ -53,14 +53,11 @@
   </div>
 
   <script>
-    // **********************************************
-    // ATTENZIONE: Il campo 'youtubeId' è stato aggiunto a tutti i brani.
-    // Questi ID sono ESATTAMENTE GLI ID DEI VIDEO UFFICIALI/POPULAR (dove possibile)
-    // ma DEVONO ESSERE VERIFICATI e modificati se necessario.
-    // **********************************************
+    // NOTA: Gli ID di YouTube qui sotto sono stati aggiunti per la funzionalità embed,
+    // ma devono essere verificati con i video ufficiali.
     const tracksByCd = {
       "CD1": [
-        {rank:1, title:"Per un'ora d'amore", artist:"Matia Bazar", spotifyId:"4iOSMIthFJtpAv9C7rUo0C", youtubeId:"_KbXaHX-fEA"}, 
+        {rank:1, title:"Per un'ora d'amore", artist:"Matia Bazar", spotifyId:"4iOSMIthFJtpAv9C7rUo0C", youtubeId:"uEa0cK0u8o0"}, 
         {rank:2, title:"Solo tu", artist:"Matia Bazar", spotifyId:"4X8Inh1pfQHQsrcoNLm7tC", youtubeId:"rPj33lQx0H0"},
         {rank:3, title:"Cavallo bianco", artist:"Matia Bazar", spotifyId:"6GYYsIzkWLh6Yc6ijGeaKF", youtubeId:"b_n5L01t58Q"},
         {rank:4, title:"C'è tutto un mondo intorno", artist:"Matia Bazar", spotifyId:"4ASccwuRpytBHkcu6EsZ3Q", youtubeId:"7_j80j0zT_o"},
@@ -97,7 +94,7 @@
 
     async function getCoverArt(spotifyId) {
       try {
-        const response = await fetch(`http://googleusercontent.com/spotify.com/a{spotifyId}`);
+        const response = await fetch(`http://googleusercontent.com/spotify.com/c{spotifyId}`);
         const data = await response.json();
         return data.thumbnail_url || null;
       } catch (error) {
@@ -133,12 +130,12 @@
         controlsDiv.style.display = 'flex'; 
         controlsDiv.style.gap = '8px'; 
         
-        // Pulsante Spotify 
+        // Pulsante Spotify (CORRETTO: Ora chiama openSpotifyPlayer)
         const btnSpotify = document.createElement('button');
         btnSpotify.textContent = 'Ascolta 30s (Spotify)';
         btnSpotify.onclick = () => openSpotifyPlayer(track.spotifyId, track.title, track.artist);
         
-        // Pulsante Youtube (mostrato solo se l'ID è presente)
+        // Pulsante Youtube 
         if (track.youtubeId) {
             const btnYoutube = document.createElement('button');
             btnYoutube.textContent = 'Guarda Video (YouTube)';
@@ -151,7 +148,6 @@
             btnYoutube.onclick = () => openYoutubePlayer(track.youtubeId, track.title, track.artist);
             controlsDiv.appendChild(btnYoutube);
         } else {
-             // Opzionale: pulsante disabilitato se manca l'ID
              const btnYoutubeDisabled = document.createElement('button');
              btnYoutubeDisabled.textContent = 'Video non disponibile';
              btnYoutubeDisabled.disabled = true;
@@ -179,6 +175,7 @@
       }
     }
 
+    // Funzione Spotify
     function openSpotifyPlayer(id, title, artist) {
       document.getElementById('track-title').textContent = title;
       document.getElementById('track-artist').textContent = artist;
@@ -187,12 +184,12 @@
       // Configura l'iframe per Spotify (player piccolo)
       playerIframe.width = '300';
       playerIframe.height = '80';
-      playerIframe.src = `http://googleusercontent.com/spotify.com/b{id}?theme=0`;
+      playerIframe.src = `http://googleusercontent.com/spotify.com/d{id}?theme=0`;
       
       document.getElementById('overlay').style.display = 'flex';
     }
     
-    // NUOVA FUNZIONE per il lettore YouTube embedded
+    // Funzione Youtube
     function openYoutubePlayer(id, title, artist) {
       document.getElementById('track-title').textContent = title;
       document.getElementById('track-artist').textContent = artist;
@@ -201,7 +198,6 @@
       // Configura l'iframe per YouTube (player grande, formato 16:9)
       playerIframe.width = '400'; 
       playerIframe.height = '225'; 
-      // URL standard per l'embed di YouTube con autoplay
       playerIframe.src = `https://www.youtube.com/embed/${id}?autoplay=1`;
       
       document.getElementById('overlay').style.display = 'flex';
@@ -228,9 +224,6 @@
   </script>
 </body>
 </html>
-
-
-
 
 
 
