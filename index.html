@@ -33,7 +33,7 @@
   <h1>🎵 Souvenir: The Very Best of Matia Bazar</h1>
   <div class="subtitle">Anteprime di 30 secondi da Spotify</div>
   <div class="controls">
-    <label for="cdSel"><strong>Anno:</strong></label>
+    <label for="cdSel"><strong>Cd:</strong></label>
     <select id="cdSel" onchange="renderCD(this.value)">
       <option value="CD1">CD1</option>
       <option value="CD2">CD2</option>
@@ -50,7 +50,7 @@
     </div>
   </div>
   <script>
-    const tracksByYear = {
+    const tracksByCd = {
       "CD1": [
         {rank:1, title:"Per un'ora d'amore", artist:"Matia Bazar", spotifyId:"4iOSMIthFJtpAv9C7rUo0C"},
         
@@ -73,7 +73,7 @@
     async function renderYear(year) {
       const list = document.getElementById('list');
       list.innerHTML = '<div style="text-align:center;padding:20px;">Caricamento copertine...</div>';
-      const tracks = tracksByYear[year];
+      const tracks = tracksByCd[cd];
       list.innerHTML = '';
       for (const track of tracks) {
         const div = document.createElement('div');
@@ -87,7 +87,7 @@
           <div>
             <span class='rank'>${track.rank}.</span>
             <span class='title'>${track.title}</span>
-            <span class='year-badge'>${year}</span>
+            <span class='cd-badge'>${cd}</span>
           </div>
           <div class='artist'>${track.artist}</div>
         `;
@@ -130,6 +130,7 @@
   </script>
 </body>
 </html>
+
 
 
 
