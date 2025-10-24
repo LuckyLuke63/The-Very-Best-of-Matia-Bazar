@@ -27,11 +27,25 @@
     #close { margin-top:16px; background: linear-gradient(135deg,#c0392b 0%,#e74c3c 100%);}
     #close:hover { background: linear-gradient(135deg,#a93226 0%,#cb4335 100%);}
     .cd-badge { background:#a65e2e; color:white; padding:4px 8px; border-radius:12px; font-size:0.7em; font-weight:bold; margin-left:8px;}
+    /* NUOVO STILE PER L'IMMAGINE DI COPERTINA */
+    .album-main-cover { 
+      text-align: center; 
+      margin-bottom: 2em;
+    }
+    .album-main-cover img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
   </style>
 </head>
 <body>
   <h1>🎵 Souvenir: The Very Best of Matia Bazar</h1>
   <div class="subtitle">30 brani indimenticabili con anteprime Spotify e video YouTube</div>
+  <div class="album-main-cover">
+    <img src="https://raw.githubusercontent.com/LuckyLuke63/The-Very-Best-of-Matia-Bazar/main/souvenir_copertina_cd.jpg" alt="Copertina Album Souvenir: The Very Best of Matia Bazar">
+  </div>
   <div class="controls">
     <label for="cdSel"><strong>Cd:</strong></label>
     <select id="cdSel" onchange="renderCD(this.value)">
@@ -223,6 +237,7 @@
   </script>
 </body>
 </html>
+
 
 
 
