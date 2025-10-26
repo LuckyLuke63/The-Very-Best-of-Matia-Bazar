@@ -158,6 +158,8 @@
         const btnSpotify = document.createElement('button');
         btnSpotify.textContent = 'Ascolta 30s (Spotify)';
         btnSpotify.onclick = () => openSpotifyPlayer(track.spotifyId, track.title, track.artist);
+
+        controlsDiv.appendChild(btnSpotify);
         
         // Pulsante Youtube 
         if (track.youtubeId) {
@@ -179,7 +181,7 @@
              controlsDiv.appendChild(btnYoutubeDisabled);
         }
 
-        controlsDiv.appendChild(btnSpotify);
+        
         div.appendChild(coverDiv);
         div.appendChild(info);
         div.appendChild(controlsDiv);
@@ -248,6 +250,7 @@
   </script>
 </body>
 </html>
+
 
 
 
