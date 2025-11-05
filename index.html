@@ -28,7 +28,7 @@
     button:disabled { opacity:0.5; cursor:not-allowed;}
     .share-btn { background: linear-gradient(135deg,#667eea 0%,#764ba2 100%); box-shadow:0 2px 8px rgba(102,126,234,0.3);}
     .share-btn:hover { background: linear-gradient(135deg,#5568d3 0%,#6a3f92 100%);}
-    .share-menu { top:100%; margin-top:4px; position:absolute; background:white; border-radius:12px; padding:12px; box-shadow:0 4px 16px rgba(0,0,0,0.2); z-index:100; display:none; min-width:200px;}
+    .share-menu { top:100%; margin-top:4px; position:absolute; background:white; border-radius:12px; padding:12px; box-shadow:0 4px 16px rgba(0,0,0,0.2); z-index:200; display:none; min-width:200px;}
     .share-menu.active { display:block;}
     .share-option { display:flex; align-items:center; padding:10px; border-radius:8px; cursor:pointer; transition:background 0.2s; margin-bottom:4px; color:#3b2f2f; text-decoration:none;}
     .share-option:hover { background:#f0f0f0;}
@@ -166,6 +166,7 @@
         controlsDiv.style.flexDirection = 'column';
         controlsDiv.style.gap = '8px';
         controlsDiv.style.position = 'relative';
+        controlsDiv.style.zIndex = '10';
         
         // Pulsante Spotify
         const btnSpotify = document.createElement('button');
@@ -348,6 +349,7 @@
   </script>
 </body>
 </html>
+
 
 
 
