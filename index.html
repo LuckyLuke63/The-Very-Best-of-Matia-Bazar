@@ -15,7 +15,7 @@
     .subtitle { text-align:center; margin-bottom:1.5em; color:#7d5a50; font-style:italic;}
     .controls { display:flex; justify-content:center; align-items:center; margin-bottom:1.5em; gap:.5em;}
     select { padding:8px 12px; border-radius:6px; border:2px solid #a65e2e; background:white; font-size:1em; color:#3b2f2f;}
-    .song { background: #fff; border-radius:12px; padding:16px; margin-bottom:1.2em; display:flex; align-items:center; box-shadow:0 4px 12px rgba(0,0,0,0.15); transition:transform 0.2s;}
+    .song { position:relative; background: #fff; border-radius:12px; padding:16px; margin-bottom:1.2em; display:flex; align-items:center; box-shadow:0 4px 12px rgba(0,0,0,0.15); transition:transform 0.2s;}
     .song:hover { transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,0.2);}
     .album-cover { width:64px; height:64px; border-radius:8px; margin-right:16px; background:#f0f0f0; display:flex; align-items:center; justify-content:center; font-size:2em; color:#ccc; flex-shrink:0; overflow:hidden;}
     .album-cover img { width:100%; height:100%; object-fit:cover; border-radius:8px;}
@@ -28,7 +28,7 @@
     button:disabled { opacity:0.5; cursor:not-allowed;}
     .share-btn { background: linear-gradient(135deg,#667eea 0%,#764ba2 100%); box-shadow:0 2px 8px rgba(102,126,234,0.3);}
     .share-btn:hover { background: linear-gradient(135deg,#5568d3 0%,#6a3f92 100%);}
-    .share-menu { position:absolute; background:white; border-radius:12px; padding:12px; box-shadow:0 4px 16px rgba(0,0,0,0.2); z-index:100; display:none; min-width:200px;}
+    .share-menu { top:100%; margin-top:4px; position:absolute; background:white; border-radius:12px; padding:12px; box-shadow:0 4px 16px rgba(0,0,0,0.2); z-index:100; display:none; min-width:200px;}
     .share-menu.active { display:block;}
     .share-option { display:flex; align-items:center; padding:10px; border-radius:8px; cursor:pointer; transition:background 0.2s; margin-bottom:4px; color:#3b2f2f; text-decoration:none;}
     .share-option:hover { background:#f0f0f0;}
@@ -348,6 +348,7 @@
   </script>
 </body>
 </html>
+
 
 
 
