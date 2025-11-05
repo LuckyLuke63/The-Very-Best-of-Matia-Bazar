@@ -25,6 +25,15 @@
     .artist { color:#666; font-size:0.95em; margin-top:2px;}
     button { background: linear-gradient(135deg,#1db954 0%,#1ed760 100%); border:none; color:white; padding:10px 16px; border-radius:25px; cursor:pointer; font-size:0.9em; font-weight:600; transition:all 0.2s; box-shadow:0 2px 8px rgba(29,185,84,0.3);}
     button:hover { background: linear-gradient(135deg,#17a44c 0%,#1bcf5a 100%); transform:translateY(-1px);}
+    button:disabled { opacity:0.5; cursor:not-allowed;}
+    .share-btn { background: linear-gradient(135deg,#667eea 0%,#764ba2 100%); box-shadow:0 2px 8px rgba(102,126,234,0.3);}
+    .share-btn:hover { background: linear-gradient(135deg,#5568d3 0%,#6a3f92 100%);}
+    .share-menu { position:absolute; background:white; border-radius:12px; padding:12px; box-shadow:0 4px 16px rgba(0,0,0,0.2); z-index:100; display:none; min-width:200px;}
+    .share-menu.active { display:block;}
+    .share-option { display:flex; align-items:center; padding:10px; border-radius:8px; cursor:pointer; transition:background 0.2s; margin-bottom:4px; color:#3b2f2f; text-decoration:none;}
+    .share-option:hover { background:#f0f0f0;}
+    .share-option:last-child { margin-bottom:0;}
+    .share-icon { width:24px; height:24px; margin-right:10px; font-size:1.2em;}
     #overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); display:none; align-items:center; justify-content:center; z-index:1000;}
     #player { background:#fff; border-radius:16px; padding:24px; max-width:420px; width:90%; text-align:center; box-shadow:0 12px 32px rgba(0,0,0,0.3);}
     #player h3 { margin:0 0 8px; color:#2c1810; font-size:1.3em;}
@@ -32,7 +41,6 @@
     #close { margin-top:16px; background: linear-gradient(135deg,#c0392b 0%,#e74c3c 100%);}
     #close:hover { background: linear-gradient(135deg,#a93226 0%,#cb4335 100%);}
     .cd-badge { background:#a65e2e; color:white; padding:4px 8px; border-radius:12px; font-size:0.7em; font-weight:bold; margin-left:8px;}
-    /* NUOVO STILE PER L'IMMAGINE DI COPERTINA */
     .album-main-cover { 
       text-align: center; 
       margin-bottom: 2em;
@@ -79,8 +87,6 @@
   </div>
 
   <script>
-    // NOTA: Gli ID di YouTube qui sotto sono stati aggiunti per la funzionalità embed,
-    // ma devono essere verificati con i video ufficiali.
     const tracksByCd = {
       "CD1": [
         {rank:1, title:"Per un'ora d'amore", artist:"1975", spotifyId:"4iOSMIthFJtpAv9C7rUo0C", youtubeId:"_KbXaHX-fEA"}, 
@@ -158,25 +164,23 @@
         const controlsDiv = document.createElement('div');
         controlsDiv.style.display = 'flex'; 
         controlsDiv.style.flexDirection = 'column';
-        controlsDiv.style.gap = '8px'; 
+        controlsDiv.style.gap = '8px';
+        controlsDiv.style.position = 'relative';
         
-        // Pulsante Spotify (CORRETTO: Ora chiama openSpotifyPlayer)
+        // Pulsante Spotify
         const btnSpotify = document.createElement('button');
         btnSpotify.textContent = 'Ascolta 30s (Spotify)';
         btnSpotify.onclick = () => openSpotifyPlayer(track.spotifyId, track.title, track.artist);
-
         controlsDiv.appendChild(btnSpotify);
         
         // Pulsante Youtube 
         if (track.youtubeId) {
             const btnYoutube = document.createElement('button');
             btnYoutube.textContent = 'Guarda Video (YouTube)';
-            // Stili per il pulsante YouTube (Rosso)
             btnYoutube.style.background = 'linear-gradient(135deg, #FF0000 0%, #D80000 100%)'; 
             btnYoutube.style.boxShadow = '0 2px 8px rgba(255, 0, 0, 0.3)';
             btnYoutube.onmouseover = () => btnYoutube.style.background = 'linear-gradient(135deg, #CC0000 0%, #B80000 100%)';
             btnYoutube.onmouseout = () => btnYoutube.style.background = 'linear-gradient(135deg, #FF0000 0%, #D80000 100%)';
-
             btnYoutube.onclick = () => openYoutubePlayer(track.youtubeId, track.title, track.artist);
             controlsDiv.appendChild(btnYoutube);
         } else {
@@ -186,6 +190,16 @@
              btnYoutubeDisabled.style.opacity = '0.5';
              controlsDiv.appendChild(btnYoutubeDisabled);
         }
+
+        // Pulsante Condividi
+        const btnShare = document.createElement('button');
+        btnShare.className = 'share-btn';
+        btnShare.textContent = '🔗 Condividi';
+        btnShare.onclick = (e) => {
+          e.stopPropagation();
+          shareTrack(track, btnShare);
+        };
+        controlsDiv.appendChild(btnShare);
 
         
         div.appendChild(coverDiv);
@@ -213,7 +227,6 @@
       document.getElementById('track-artist').textContent = artist;
       
       const playerIframe = document.getElementById('sp-player');
-      // Configura l'iframe per Spotify (player piccolo)
       playerIframe.width = '300';
       playerIframe.height = '80';
       playerIframe.src = `https://open.spotify.com/embed/track/${id}`;
@@ -227,7 +240,6 @@
       document.getElementById('track-artist').textContent = artist;
       
       const playerIframe = document.getElementById('sp-player');
-      // Configura l'iframe per YouTube (player grande, formato 16:9)
       playerIframe.width = '352'; 
       playerIframe.height = '198'; 
       playerIframe.src = `https://www.youtube.com/embed/${id}?autoplay=1`;
@@ -235,11 +247,91 @@
       document.getElementById('overlay').style.display = 'flex';
     }
 
-
     function closePlayer() {
       document.getElementById('overlay').style.display = 'none';
-      // Ferma la riproduzione resettando la sorgente
       document.getElementById('sp-player').src = ''; 
+    }
+
+    // Funzione per condividere un brano
+    async function shareTrack(track, btnElement) {
+      const shareUrl = `https://open.spotify.com/track/${track.spotifyId}`;
+      const shareText = `🎵 ${track.title} - Matia Bazar (${track.artist})`;
+      
+      // Prova prima con la Web Share API (nativa)
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: shareText,
+            text: `Ascolta "${track.title}" dei Matia Bazar!`,
+            url: shareUrl
+          });
+          return;
+        } catch (err) {
+          if (err.name === 'AbortError') return;
+        }
+      }
+      
+      // Se Web Share API non è disponibile, mostra il menu personalizzato
+      showShareMenu(track, shareUrl, shareText, btnElement);
+    }
+
+    function showShareMenu(track, shareUrl, shareText, btnElement) {
+      // Rimuovi eventuali menu aperti
+      document.querySelectorAll('.share-menu').forEach(m => m.remove());
+      
+      const menu = document.createElement('div');
+      menu.className = 'share-menu active';
+      
+      const encodedText = encodeURIComponent(shareText);
+      const encodedUrl = encodeURIComponent(shareUrl);
+      
+      const options = [
+        { name: 'WhatsApp', icon: '💬', url: `https://wa.me/?text=${encodedText}%20${encodedUrl}` },
+        { name: 'Facebook', icon: '📘', url: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}` },
+        { name: 'Twitter', icon: '🐦', url: `https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}` },
+        { name: 'Telegram', icon: '✈️', url: `https://t.me/share/url?url=${encodedUrl}&text=${encodedText}` },
+        { name: 'Email', icon: '📧', url: `mailto:?subject=${encodedText}&body=${encodedText}%0A${encodedUrl}` },
+        { name: 'Copia link', icon: '📋', action: () => copyToClipboard(shareUrl, menu) }
+      ];
+      
+      options.forEach(opt => {
+        const div = document.createElement(opt.url ? 'a' : 'div');
+        div.className = 'share-option';
+        if (opt.url) {
+          div.href = opt.url;
+          div.target = '_blank';
+        } else {
+          div.onclick = opt.action;
+        }
+        div.innerHTML = `<span class="share-icon">${opt.icon}</span>${opt.name}`;
+        menu.appendChild(div);
+      });
+      
+      btnElement.parentElement.appendChild(menu);
+      
+      // Chiudi menu al click fuori
+      setTimeout(() => {
+        document.addEventListener('click', function closeMenu(e) {
+          if (!menu.contains(e.target) && e.target !== btnElement) {
+            menu.remove();
+            document.removeEventListener('click', closeMenu);
+          }
+        });
+      }, 100);
+    }
+
+    async function copyToClipboard(text, menu) {
+      try {
+        await navigator.clipboard.writeText(text);
+        const feedback = document.createElement('div');
+        feedback.textContent = '✓ Link copiato!';
+        feedback.style.cssText = 'color:#1db954;font-weight:bold;padding:10px;text-align:center;';
+        menu.innerHTML = '';
+        menu.appendChild(feedback);
+        setTimeout(() => menu.remove(), 1500);
+      } catch (err) {
+        alert('Link: ' + text);
+      }
     }
 
     document.getElementById('overlay').addEventListener('click', e => {
@@ -256,36 +348,6 @@
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
